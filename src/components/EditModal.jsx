@@ -3,36 +3,35 @@
 import { Envelope } from "@gravity-ui/icons";
 import { Button, FieldError, Input, Label, ListBox, Modal, Surface, TextArea, TextField, Select } from "@heroui/react";
 import { BiEdit } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 export function EditModal({ destination }) {
+    const { _id, imageUrl, price, category, destinationName, duration, country, description, departureDate } = destination;
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const destination = Object.fromEntries(formData.entries());
         // console.log(destination);
 
-        // const res = await fetch('http://localhost:5000/destination', {
-        //     method: "POST",
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(destination),
-        // })
-        // const data = res.json();
-        // return data;
-        toast.success("Destination Added")
+        const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(destination),
+        })
+        const data = await res.json();
+        console.log(data);
+        toast.success("Destination Updated")
 
     }
-    const { _id, imageUrl, price, category, destinationName, duration, country, description, departureDate } = destination;
+    
 
     return (
         <Modal>
-            <div className='justify-end flex'>
                 <Button variant='outline' className={'rounded-none mt-5 mb-3'}>
                     <BiEdit></BiEdit>Edit
                 </Button>
-
-            </div>
             <Modal.Backdrop>
                 <Modal.Container placement="auto">
                     <Modal.Dialog className="sm:max-w-xl">

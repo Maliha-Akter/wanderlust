@@ -1,5 +1,6 @@
 "use client"
 import { Button, FieldError, Input, Label, ListBox, TextArea, TextField, Select, Card } from '@heroui/react';
+import { redirect } from 'next/navigation';
 import React from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,9 +18,10 @@ const AddDestinationPage = () => {
             },
             body: JSON.stringify(destination),
         })
-        const data = res.json();
+        const data = await res.json();
         // return data;
-        toast.success("Destination Added")
+        toast.success("Destination Added");
+        redirect('/destinations')
         
     }
     return (
